@@ -13,10 +13,12 @@ public class Project:MonoBehaviour{
 	
 	private List<Vector3> searchPoints;
 	private List<Vector3> hitPoints;
+	private List<Vector3> hitPointsMiss;
 	
 	void Start(){
 		searchPoints = new List<Vector3>();
 		hitPoints = new List<Vector3>();
+		hitPointsMiss = new List<Vector3>();
 		
 		int ind = 0;
 		for(int i=0;i<rez;i++){
@@ -38,9 +40,15 @@ public class Project:MonoBehaviour{
 		
 		RaycastHit ray;
 		hitPoints.Clear();
+		hitPointsMiss.Clear();
 		foreach(Vector3 i in searchPoints){
 			if(Physics.Raycast(this.transform.position,(this.transform.rotation*Quaternion.Euler(90,0,0))*(this.transform.position+(Vector3.up*angle)+i),out ray,searchDist)){
-				hitPoints.Add(ray.point);
+				if(ray.collider.tag == "Player"){
+					hitPoints.Add(ray.point);
+				}
+				else{
+					hitPointsMiss.Add(ray.point);
+				}
 			}
 		}
 	}
@@ -52,7 +60,10 @@ public class Project:MonoBehaviour{
 				Gizmos.DrawSphere((this.transform.rotation*Quaternion.Euler(90,0,0))*(this.transform.position+(Vector3.up*angle)+i),0.01f);
 			}
 			
-			
+			foreach (Vector3 i in hitPointsMiss){
+				Gizmos.DrawSphere(i,0.1f);
+			}
+			Gizmos.color = Color.red;
 			foreach (Vector3 i in hitPoints){
 				Gizmos.DrawSphere(i,0.1f);
 			}
