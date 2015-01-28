@@ -43,7 +43,7 @@ public class Movement : MonoBehaviour {
 
 		//BASIC MOVEEMTN
 		if(state == states.walk || state == states.crawl){
-			Vector3 hMove = this.transform.right*Input.GetAxis("Horizontal")*(speed*Time.deltaTime)*(.05f)*fast;
+			Vector3 hMove = this.transform.right*Input.GetAxis("Horizontal")*(speed*Time.deltaTime)*(.5f)*fast;
 			Vector3 vMove = this.transform.forward*Input.GetAxis("Vertical")*(speed*Time.deltaTime)*fast;
 			
 			if(!Physics.Raycast(new Ray(this.transform.position+(Vector3.up*0.2f)+(hMove.normalized*(colliderDown.radius)),hMove.normalized),hMove.magnitude)){
