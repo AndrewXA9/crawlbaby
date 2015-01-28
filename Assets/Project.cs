@@ -20,7 +20,6 @@ public class Project:MonoBehaviour{
 		hitPoints = new List<Vector3>();
 		hitPointsMiss = new List<Vector3>();
 		
-		int ind = 0;
 		for(int i=0;i<rez;i++){
 			for(int j=0;j<rez;j++){
 				float x = ((float)j/rez)-0.5f+((1f/rez)/2f);

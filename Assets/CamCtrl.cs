@@ -29,7 +29,7 @@ public class CamCtrl : MonoBehaviour {
 	void Update () {
 		
 		
-		angle += Input.GetAxis("Mouse Y")*Time.deltaTime*verticalSpeed;
+		angle += (-Input.GetAxis("Mouse Y"))*Time.deltaTime*verticalSpeed;
 		angle = Mathf.Clamp(angle,minAngle,maxAngle);
 		
 		this.transform.position = Vector3.Lerp(this.transform.position,target,snap*Time.deltaTime);

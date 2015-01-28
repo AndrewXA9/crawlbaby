@@ -10,16 +10,23 @@ public class Movement : MonoBehaviour {
 	
 	private GameObject climbPoint;
 	
-	public enum states {walk,crawl,run,jump,climb,grab};
+	private float fast = 1f;
+	
+	public enum states {walk,crawl,jump,climb,grab};
 	public states state = states.walk;
 	
 	public float walkspeed;
 	public float crawlspeed;
-	public float runspeed;
+	public float speedupMultiplier;
 	
 	public float turnspeed;
 	
 	private float speed;
+	
+	public AnimationCurve climbUp;
+	public AnimationCurve climbForward;
+	
+	
 	
 	void Start(){
 		climbPoint = GameObject.Find("Climb");
@@ -33,12 +40,11 @@ public class Movement : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update(){
-		
-		
+
 		//BASIC MOVEEMTN
-		if(state == states.walk || state == states.run || state == states.crawl){
-			Vector3 hMove = this.transform.right*Input.GetAxis("Horizontal")*(speed*Time.deltaTime)/2;
-			Vector3 vMove = this.transform.forward*Input.GetAxis("Vertical")*(speed*Time.deltaTime);
+		if(state == states.walk || state == states.crawl){
+			Vector3 hMove = this.transform.right*Input.GetAxis("Horizontal")*(speed*Time.deltaTime)*(.05f)*fast;
+			Vector3 vMove = this.transform.forward*Input.GetAxis("Vertical")*(speed*Time.deltaTime)*fast;
 			
 			if(!Physics.Raycast(new Ray(this.transform.position+(Vector3.up*0.2f)+(hMove.normalized*(colliderDown.radius)),hMove.normalized),hMove.magnitude)){
 				this.transform.position += hMove;
@@ -47,12 +53,26 @@ public class Movement : MonoBehaviour {
 				this.transform.position += vMove;
 			}
 		}
+
 		//ROTATE
-		this.transform.RotateAround(this.transform.position,Vector3.up,Input.GetAxis("Mouse X")*Time.deltaTime*turnspeed);
+		if(state != states.grab && state != states.climb){
+			this.transform.RotateAround(this.transform.position,Vector3.up,Input.GetAxis("Mouse X")*Time.deltaTime*turnspeed);
+		}
 			
-		//CRAWL
+		//PARKOUR
+		if(state != states.climb && state != states.crawl){
+			if(Input.GetKeyDown(KeyCode.Space)){
+				RaycastHit ray;
+				if(Physics.Raycast(climbPoint.transform.position,-(this.transform.up),out ray,0.8f)){
+					StartCoroutine(Parkour((ray.point-this.transform.position).magnitude));
+				}
+			}
+			
+		}
+		
+		//CRAWL TOGGLE
 		if(Input.GetKeyDown(KeyCode.LeftControl)){
-			if(state == states.walk || state == states.run){
+			if(state == states.walk){
 				state = states.crawl;
 				up.SetActive(false);
 				down.SetActive(true);
@@ -73,6 +93,27 @@ public class Movement : MonoBehaviour {
 		
 		
 		
+	}
+	
+	IEnumerator Parkour(float height){
+		states tState = state;
+		state = states.climb;
+		
+		float t = 0;
+		Vector3 pos = this.transform.position;
+		
+		this.rigidbody.useGravity = false;
+		colliderUp.enabled = false;
+		
+		while(t<1){
+			this.transform.position = pos+(this.transform.up*climbUp.Evaluate(t)*height)+(this.transform.forward*climbForward.Evaluate(t)*0.4f);
+			t += Time.deltaTime;
+			yield return null;
+		}
+		
+		state = tState;
+		this.rigidbody.useGravity = true;
+		colliderUp.enabled = true;
 	}
 	
 	void OnDrawGizmos(){
