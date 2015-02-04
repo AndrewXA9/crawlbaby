@@ -8,6 +8,8 @@ public class Movement : MonoBehaviour {
 	private CapsuleCollider colliderUp;
 	private SphereCollider colliderDown;
 	
+	private Camera cam;
+	
 	private GameObject climbPoint;
 	
 	private float fast = 1f;
@@ -30,6 +32,8 @@ public class Movement : MonoBehaviour {
 	
 	void Start(){
 		climbPoint = GameObject.Find("Climb");
+		
+		cam = Camera.main;
 		
 		speed = walkspeed;
 		
@@ -71,23 +75,27 @@ public class Movement : MonoBehaviour {
 		}
 		
 		//CRAWL TOGGLE
-		if(Input.GetKeyDown(KeyCode.LeftControl)){
-			if(state == states.walk){
-				state = states.crawl;
-				up.SetActive(false);
-				down.SetActive(true);
-				colliderUp.enabled = false;
-				colliderDown.enabled = true; 
-				speed = crawlspeed;
+		if(state == states.walk || state == states.crawl){
+			if(Input.GetKeyDown(KeyCode.LeftControl)){
+				if(state == states.walk){
+					state = states.crawl;
+					up.SetActive(false);
+					down.SetActive(true);
+					colliderUp.enabled = false;
+					colliderDown.enabled = true; 
+					cam.SendMessage("Down");
+					speed = crawlspeed;
+				}
 			}
-		}
-		if(Input.GetKeyUp(KeyCode.LeftControl)){
-			state = states.walk;
-			up.SetActive(true);
-			down.SetActive(false);
-			colliderUp.enabled = true;
-			colliderDown.enabled = false;
-			speed = walkspeed;
+			if(Input.GetKeyUp(KeyCode.LeftControl)){
+				state = states.walk;
+				up.SetActive(true);
+				down.SetActive(false);
+				colliderUp.enabled = true;
+				colliderDown.enabled = false;
+				cam.SendMessage("Up");
+				speed = walkspeed;
+			}
 		}
 		
 		
