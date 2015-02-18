@@ -4,8 +4,8 @@ using System.Collections.Generic;
 
 public class Project:MonoBehaviour{
 	
-	public float rot = 0;
-	public float speed = 1;
+	//public float rot = 0;
+	//public float speed = 1;
 	
 	public float rez = 10;
 	public float angle = 2;
@@ -33,15 +33,16 @@ public class Project:MonoBehaviour{
 	}
 	
 	void Update(){
-		rot = rot+(speed*Time.deltaTime);
+		//rot = rot+(speed*Time.deltaTime);
 		
-		this.transform.rotation = Quaternion.Euler(0,rot,0);
+		//this.transform.rotation = Quaternion.Euler(0,rot,0);
 		
 		RaycastHit ray;
 		hitPoints.Clear();
 		hitPointsMiss.Clear();
 		foreach(Vector3 i in searchPoints){
-			if(Physics.Raycast(this.transform.position,(this.transform.rotation*Quaternion.Euler(90,0,0))*(this.transform.position+(Vector3.up*angle)+i),out ray,searchDist)){
+			//if(Physics.Raycast(this.transform.position,(this.transform.rotation*Quaternion.Euler(90,0,0))*(this.transform.position+(Vector3.up*angle)+i),out ray,searchDist)){
+			if(Physics.Raycast(this.transform.position,((this.transform.rotation*Quaternion.Euler(90,0,0))*((Vector3.up*angle)+i)),out ray,searchDist)){
 				if(ray.collider.tag == "Player"){
 					hitPoints.Add(ray.point);
 				}
@@ -56,7 +57,7 @@ public class Project:MonoBehaviour{
 		if(Time.time > 0){
 			Gizmos.color = Color.green;
 			foreach (Vector3 i in searchPoints){
-				Gizmos.DrawSphere((this.transform.rotation*Quaternion.Euler(90,0,0))*(this.transform.position+(Vector3.up*angle)+i),0.01f);
+				Gizmos.DrawSphere(((this.transform.rotation*Quaternion.Euler(90,0,0))*((Vector3.up*angle)+i))+this.transform.position,0.01f);
 			}
 			
 			foreach (Vector3 i in hitPointsMiss){

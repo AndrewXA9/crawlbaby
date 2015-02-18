@@ -53,7 +53,7 @@ public class CamCtrl : MonoBehaviour {
 		if(Input.GetMouseButtonDown(0)){
 			Screen.lockCursor = true;
 		}
-		Debug.Log(angle);
+		//Debug.Log(angle);
 		
 	}
 	

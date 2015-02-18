@@ -11,6 +11,7 @@ public class Movement : MonoBehaviour {
 	private Camera cam;
 	
 	private GameObject climbPoint;
+	private GameObject crawlPoint;
 	
 	private float fast = 1f;
 	
@@ -20,6 +21,7 @@ public class Movement : MonoBehaviour {
 	public float walkspeed;
 	public float crawlspeed;
 	public float speedupMultiplier;
+	public float speedupTime;
 	
 	public float turnspeed;
 	
@@ -28,10 +30,14 @@ public class Movement : MonoBehaviour {
 	public AnimationCurve climbUp;
 	public AnimationCurve climbForward;
 	
+	private bool candy;
+	
 	
 	
 	void Start(){
 		climbPoint = GameObject.Find("Climb");
+		crawlPoint = GameObject.Find("CrawlCheck");
+		
 		
 		cam = Camera.main;
 		
@@ -42,7 +48,6 @@ public class Movement : MonoBehaviour {
 		colliderDown.enabled = false;
 	}
 	
-	// Update is called once per frame
 	void Update(){
 
 		//BASIC MOVEEMTN
@@ -88,18 +93,39 @@ public class Movement : MonoBehaviour {
 				}
 			}
 			if(Input.GetKeyUp(KeyCode.LeftControl)){
-				state = states.walk;
-				up.SetActive(true);
-				down.SetActive(false);
-				colliderUp.enabled = true;
-				colliderDown.enabled = false;
-				cam.SendMessage("Up");
-				speed = walkspeed;
+				
+				if(!Physics.Raycast(crawlPoint.transform.position,Vector3.up,0.5f)){
+					state = states.walk;
+					up.SetActive(true);
+					down.SetActive(false);
+					colliderUp.enabled = true;
+					colliderDown.enabled = false;
+					cam.SendMessage("Up");
+					speed = walkspeed;
+				}
 			}
 		}
 		
 		
 		
+	}
+	
+	void OnTriggerEnter(Collider other){
+		if(other.tag == "Speedup" && !candy){
+			candy = true;
+			Destroy(other.gameObject);
+		}
+	}
+	
+	
+	IEnumerator SpeedBoost(){
+		fast = speedupMultiplier;
+		float time = 0;
+		while(time < speedupTime){
+			time += Time.deltaTime;
+			yield return null;	
+		}
+		fast = 1;
 		
 	}
 	
