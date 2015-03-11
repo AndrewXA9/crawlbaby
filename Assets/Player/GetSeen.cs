@@ -30,6 +30,11 @@ public class GetSeen : MonoBehaviour {
 			}
 		}
 		
+		if(currTime >= TimeLimit){
+			GlobalReset.level = Application.loadedLevel;
+			Application.LoadLevel(0);
+		}
+		
 		if(alerts == 0 && alertOn){
 			alert.SetActive(false);
 			alertOn = false;

@@ -49,6 +49,11 @@ public class Pathing : MonoBehaviour {
 		}
 	}
 	
+	void Freeze(){
+		move = false;
+		currTime = 0;
+	}
+	
 	void OnDrawGizmos(){
 		if(Time.time > 0){
 			for(int i=0;i<nodes.Count;i++){

@@ -46,6 +46,7 @@ public class Project:MonoBehaviour{
 				if(ray.collider.tag == "Player"){
 					hitPoints.Add(ray.point);
 					ray.collider.gameObject.SendMessage("Alert");
+					this.transform.parent.gameObject.SendMessage("Freeze");
 				}
 				else{
 					hitPointsMiss.Add(ray.point);

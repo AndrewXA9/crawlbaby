@@ -9,6 +9,7 @@ public class Talk : MonoBehaviour {
 	private Rect Bubble;
 	private float pos;
 	
+	private float time = 0f;
 	
 	void Start () {
 		Bubble = new Rect(Screen.width/20f,-((Screen.height/20f)+(Screen.height/5f)),Screen.width-((Screen.width/20f)*2f),Screen.height/5f);
@@ -16,15 +17,22 @@ public class Talk : MonoBehaviour {
 		this.gameObject.renderer.enabled = false;
 	}
 	
-	void OnTriggerEnter(Collider other){
+	void OnTriggerStay(Collider other){
 		if (other.tag == "Player"){
 			pos = Screen.height/20f;
+			time = 1f;
 		}
 	}
-	void OnTriggerExit(Collider other){
-		if (other.tag == "Player"){
-			pos = -((Screen.height/20f)+(Screen.height/5f));
+	
+	void Update(){
+		if(time > 0){
+			time -= Time.deltaTime;
+			
+			if(time <= 0){
+				pos = -((Screen.height/20f)+(Screen.height/5f));
+			}
 		}
+		
 	}
 	
 	void OnGUI(){
