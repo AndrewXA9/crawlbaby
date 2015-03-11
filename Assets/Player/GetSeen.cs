@@ -16,6 +16,9 @@ public class GetSeen : MonoBehaviour {
 	
 	private int alerts = 0;
 	
+	public Texture bar;
+	public Texture border;
+	
 	public void Start(){
 		audio = this.gameObject.GetComponent<AudioSource>();
 	}
@@ -59,7 +62,8 @@ public class GetSeen : MonoBehaviour {
 	
 	public void OnGUI(){
 		if(currTime > 0){
-			GUI.Box(new Rect(0,0,Screen.width*(currTime/TimeLimit),100),"lolololooololol");
+			GUI.DrawTexture(new Rect(0,0,Screen.width*(currTime/TimeLimit),100),bar);
+			GUI.DrawTexture(new Rect(0,0,Screen.width,100),border);
 		}
 		GUI.Box(new Rect(0,100,50,50),alerts.ToString());
 	}
