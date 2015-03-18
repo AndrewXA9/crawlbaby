@@ -23,7 +23,7 @@ public class EyeLook : MonoBehaviour {
 		else{
 			time += Time.deltaTime;
 		}
-		Debug.Log(cooldown);
+		//Debug.Log(cooldown);
 		this.transform.position = new Vector3(origin.x,origin.y+(((Mathf.Cos(time*speed)-1)/2)*dist),origin.z);
 	}
 	

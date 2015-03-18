@@ -36,6 +36,7 @@ public class Talk : MonoBehaviour {
 	}
 	
 	void OnGUI(){
+		GUI.skin.box.fontSize = 22;
 		Bubble.y = Mathf.Lerp(Bubble.y,pos,0.1f);
 		GUI.Box(Bubble,text);
 		

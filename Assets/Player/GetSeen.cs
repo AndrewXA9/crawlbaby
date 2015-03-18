@@ -35,7 +35,7 @@ public class GetSeen : MonoBehaviour {
 		
 		if(currTime >= TimeLimit){
 			GlobalReset.level = Application.loadedLevel;
-			Application.LoadLevel(0);
+			Application.LoadLevel(1);
 		}
 		
 		if(alerts == 0 && alertOn){

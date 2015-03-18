@@ -1,0 +1,4 @@
+Climbing through boxes
+enemy direction alert
+dragon sees through wall in Jo's level
+animations

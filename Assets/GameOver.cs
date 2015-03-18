@@ -6,7 +6,7 @@ public class GameOver : MonoBehaviour {
 	public Texture image;
 	
 	void OnGUI () {
-		GUI.DrawTexture(new Rect((Screen.width/2f)-(image.width/2f),0,Screen.height,Screen.height),image);
+		GUI.DrawTexture(new Rect(0,0,Screen.width,Screen.height),image,ScaleMode.ScaleToFit);
 	}
 	
 	void Update () {
