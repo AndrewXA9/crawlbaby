@@ -27,8 +27,9 @@ public class Progression : MonoBehaviour {
 		
 		if(collision.gameObject.tag == "CookieJar"){
 			cookies ++;
+			Destroy(collision.gameObject);
 			
-			if(cookies >= maxCookies){
+			if(cookies >= maxCookies-3){
 				Application.LoadLevel(Application.loadedLevel+1);
 			}
 		}

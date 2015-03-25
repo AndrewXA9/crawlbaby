@@ -4,6 +4,7 @@ using System.Collections;
 public class GetSeen : MonoBehaviour {
 	
 	public GameObject alert;
+	public GameObject arrow;
 	public bool alertOn = false;
 	
 	private AudioSource audio;
@@ -18,6 +19,8 @@ public class GetSeen : MonoBehaviour {
 	
 	public Texture bar;
 	public Texture border;
+	
+	private Vector3 alertPos;
 	
 	public void Start(){
 		audio = this.gameObject.GetComponent<AudioSource>();
@@ -40,18 +43,23 @@ public class GetSeen : MonoBehaviour {
 		
 		if(alerts == 0 && alertOn){
 			alert.SetActive(false);
+			arrow.SetActive(false);
 			alertOn = false;
 		}
 		
 		alerts = 0;
 	}
 	
-	public void Alert(){
+	public void Alert(Vector3 pos){
 		if(alerts == 0){
+			alertPos = pos;
+			arrow.transform.LookAt(alertPos);
+			
 			currTime += Time.deltaTime;
 			currTime = Mathf.Clamp(currTime,0,TimeLimit);
 			if(resetDelay <= 0){
 				alert.SetActive(true);
+				arrow.SetActive(true);
 				alertOn = true;
 				audio.Play();
 			}

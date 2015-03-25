@@ -45,7 +45,7 @@ public class Project:MonoBehaviour{
 			if(Physics.Raycast(this.transform.position,((this.transform.rotation*Quaternion.Euler(90,0,0))*((Vector3.up*angle)+i)),out ray,searchDist)){
 				if(ray.collider.tag == "Player"){
 					hitPoints.Add(ray.point);
-					ray.collider.gameObject.SendMessage("Alert");
+					ray.collider.gameObject.SendMessage("Alert",this.transform.position);
 					this.transform.parent.gameObject.SendMessage("Freeze");
 				}
 				else{

@@ -137,7 +137,7 @@ public class Movement : MonoBehaviour {
 		Vector3 pos = this.transform.position;
 		
 		this.rigidbody.useGravity = false;
-		colliderUp.enabled = false;
+		//colliderUp.enabled = false;
 		
 		while(t<1){
 			this.transform.position = pos+(this.transform.up*climbUp.Evaluate(t)*height)+(this.transform.forward*climbForward.Evaluate(t)*0.4f);
